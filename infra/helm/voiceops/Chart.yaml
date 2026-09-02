@@ -1,0 +1,10 @@
+apiVersion: v2
+name: voiceops
+description: >
+  Helm chart for VoiceOps AI (Phase 18). NOT VALIDATED — `helm install` has
+  not been run against a real cluster in this sandbox (no cluster access).
+  Structure follows standard chart conventions; validate with
+  `helm template`/`helm lint` and a real cluster before production use.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

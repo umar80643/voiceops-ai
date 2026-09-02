@@ -1,0 +1,68 @@
+# GPU-enabled ASR deployment (Phase 17). NOT VALIDATED (see api-deployment.yaml
+# header note) — GPU scheduling in particular has not been tested against any
+# real GPU node pool.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voiceops-asr
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: voiceops-asr
+  template:
+    metadata:
+      labels:
+        app: voiceops-asr
+    spec:
+      containers:
+        - name: asr
+          image: voiceops-ai/asr:latest
+          resources:
+            requests:
+              cpu: "1"
+              memory: "2Gi"
+            limits:
+              cpu: "2"
+              memory: "4Gi"
+              nvidia.com/gpu: "1"  # requires a GPU-enabled node pool + device plugin
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8001
+            initialDelaySeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            initialDelaySeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voiceops-asr
+spec:
+  selector:
+    app: voiceops-asr
+  ports:
+    - port: 80
+      targetPort: 8001
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: voiceops-asr-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: voiceops-asr
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 75

@@ -1,0 +1,6 @@
+replicaCount: 1
+autoscaling:
+  enabled: false
+env:
+  ENVIRONMENT: development
+  LOG_LEVEL: DEBUG

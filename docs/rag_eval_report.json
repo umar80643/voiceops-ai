@@ -1,0 +1,89 @@
+{
+  "retriever": "tfidf_cosine",
+  "n_chunks_ingested": 8,
+  "k": 3,
+  "n_queries": 8,
+  "recall_at_3": 1.0,
+  "mrr": 0.9167,
+  "details": [
+    {
+      "query": "I was charged twice for my subscription",
+      "expected": "refund_policy",
+      "retrieved": [
+        "subscription_policy",
+        "billing_policy",
+        "refund_policy"
+      ],
+      "hit": true
+    },
+    {
+      "query": "someone used my card without permission",
+      "expected": "fraud_policy",
+      "retrieved": [
+        "fraud_policy",
+        "escalation_policy"
+      ],
+      "hit": true
+    },
+    {
+      "query": "I forgot my password and can't log in",
+      "expected": "account_recovery",
+      "retrieved": [
+        "account_recovery",
+        "subscription_policy",
+        "technical_troubleshooting"
+      ],
+      "hit": true
+    },
+    {
+      "query": "the app keeps crashing on my phone",
+      "expected": "technical_troubleshooting",
+      "retrieved": [
+        "technical_troubleshooting",
+        "account_recovery",
+        "escalation_policy"
+      ],
+      "hit": true
+    },
+    {
+      "query": "I want to cancel my membership",
+      "expected": "subscription_policy",
+      "retrieved": [
+        "subscription_policy",
+        "technical_troubleshooting",
+        "fraud_policy"
+      ],
+      "hit": true
+    },
+    {
+      "query": "my package says delivered but never arrived",
+      "expected": "shipping_policy",
+      "retrieved": [
+        "shipping_policy",
+        "fraud_policy",
+        "refund_policy"
+      ],
+      "hit": true
+    },
+    {
+      "query": "my bill amount looks different than expected",
+      "expected": "billing_policy",
+      "retrieved": [
+        "billing_policy",
+        "account_recovery",
+        "escalation_policy"
+      ],
+      "hit": true
+    },
+    {
+      "query": "this needs to be escalated to a human",
+      "expected": "escalation_policy",
+      "retrieved": [
+        "escalation_policy",
+        "fraud_policy",
+        "billing_policy"
+      ],
+      "hit": true
+    }
+  ]
+}

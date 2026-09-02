@@ -1,0 +1,33 @@
+replicaCount: 2
+
+image:
+  repository: voiceops-ai/api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi
+
+gpu:
+  enabled: false
+  count: 1
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+env:
+  ENVIRONMENT: production
+  LOG_LEVEL: INFO
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000

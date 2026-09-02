@@ -1,0 +1,83 @@
+# Kubernetes manifests (Phase 17)
+# NOT VALIDATED: no Kubernetes cluster is reachable from this sandbox
+# (no kubectl/cluster access). These manifests are written to the same
+# standard used for the tested Docker image (infra/docker/api.Dockerfile)
+# and follow common best practice, but "kubectl apply" has not been run
+# against a real cluster here. Validate with `kind`/`minikube` or a real
+# cluster before treating this as verified. See docs/deployment.md.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voiceops-api
+  labels:
+    app: voiceops-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: voiceops-api
+  template:
+    metadata:
+      labels:
+        app: voiceops-api
+    spec:
+      containers:
+        - name: api
+          image: voiceops-ai/api:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: voiceops-config
+            - secretRef:
+                name: voiceops-secrets
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voiceops-api
+spec:
+  selector:
+    app: voiceops-api
+  ports:
+    - port: 80
+      targetPort: 8000
+  type: ClusterIP
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: voiceops-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: voiceops-api
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

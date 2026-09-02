@@ -1,0 +1,19 @@
+# NOT VALIDATED (see api-deployment.yaml).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: voiceops-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: voiceops.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: voiceops-api
+                port:
+                  number: 80
