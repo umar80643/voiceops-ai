@@ -17,14 +17,18 @@ data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 
-
 models/asr/*
 models/emotion/*
 models/intent/*
 !models/**/.gitkeep
+
 !models/intent/fine_tuned_model.pkl
 !models/intent/vectorizer.pkl
 !models/intent/training_report.json
+
+!models/emotion/model.pkl
+!models/emotion/vectorizer.pkl
+!models/emotion/training_report.json
 
 mlruns/
 *.ckpt

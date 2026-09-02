@@ -1,0 +1,95 @@
+{
+  "dataset": {
+    "source": "synthetic (ml/datasets/synthetic_emotion.py)",
+    "is_real_customer_data": false,
+    "class_counts": {
+      "neutral": 60,
+      "happy": 60,
+      "sad": 60,
+      "angry": 60,
+      "frustrated": 60,
+      "fearful": 60,
+      "urgent": 60
+    },
+    "labels": [
+      "neutral",
+      "happy",
+      "sad",
+      "angry",
+      "frustrated",
+      "fearful",
+      "urgent"
+    ]
+  },
+  "task": "emotion (NOT sentiment; sentiment is computed separately)",
+  "model": "tfidf+mlp(64)",
+  "metrics": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "confusion_matrix": [
+      [
+        15,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        15,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        15,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        15,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        15,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        15,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        15
+      ]
+    ]
+  }
+}
